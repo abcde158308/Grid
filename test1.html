@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+    window.onload = function () {
+        // 图片懒加载函数
+        const myImage = (function (src) {
+            let imgNode = document.createElement('img')
+            document.body.appendChild(imgNode)
+            return {
+                setSrc (src) {
+                    imgNode.src = src
+                }
+            }
+        })()
+        // 代理对象
+        const proxyImage = (function () {
+            const img = new Image();
+            img.onload = function () {
+                // 加载真正的图片
+                myImage.setSrc(this.src)
+            }
+            return {
+                set (url) {
+                    myImage.setSrc('./1.jpeg') // 本地的loading图片
+                    img.src = url
+                }
+            }
+        })();
+
+        setTimeout(function(){
+            proxyImage.set('https://publish-pic-cpu.baidu.com/4d09f82c-db73-468c-8e5f-9656876891f2.jpeg@f_webp,q_90,w_230')
+    }, 5000)
+    }
+
+</script>
+<script>
+    var a = (function(src){
+        return {
+            setSrc(src){
+                alert(2222);
+            }
+        }
+    })();
+    console.log(a.setSrc());
+</script>
+</html>
